@@ -9,8 +9,8 @@ PHP terminal script to convert given HTML dom tree to Javascript code.
 * Creates a javascript variable name from the code.
  * You can use "data-jsid" in your html to tell the script what to use as variable name.
  * This is the current priority for creating a variable name:
-    data-jsid
-    class (first class from all assigned ones)
+    data-jsid > 
+    class (first class from all assigned ones) > 
     dom name (like div, img, h4, etc.)
  * If variable name is already used, a number will be added and incremented if needed (like img1, img2, etc.)
 
