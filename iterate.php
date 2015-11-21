@@ -32,6 +32,13 @@ $js = "";                         // Built javascript code
 function checkName ( $name, $number = 0 )
 {
   global $usedNames;
+
+  // Convert UTF8 to ASCII for variable name
+  $name = iconv( "UTF-8", "ASCII", $name );
+
+  // We do not want "-" in the name
+  $name = str_ireplace( array( "-" ), "", $name );
+
   if ( in_array( $name, $usedNames ) ) {
     $number++;
     $name = checkName( $name . $number, $number );
