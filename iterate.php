@@ -34,10 +34,17 @@ function checkName ( $name, $number = 0 )
   global $usedNames;
 
   // Convert UTF8 to ASCII for variable name
-  $name = iconv( "UTF-8", "ASCII", $name );
+  $name = iconv( "UTF-8", "ISO-8859-1//TRANSLIT", $name );
 
-  // We do not want "-" in the name
-  $name = str_ireplace( array( "-" ), "", $name );
+  // We only want these characters in our variable names
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+  $regex = sprintf( '/[^%s]/u', preg_quote( $characters, '/' ) );
+  $name = preg_replace( $regex, '', $name );
+
+  // Sometimes things can go wrong
+  if ( !strlen( $name ) ) {
+    $name = "domElement";
+  }
 
   if ( in_array( $name, $usedNames ) ) {
     $number++;
