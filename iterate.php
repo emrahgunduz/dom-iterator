@@ -1,6 +1,6 @@
 <?php
 
-ini_set( 'display_errors', 1 );
+ini_set( 'display_errors', 0 );
 
 /** Detect if we are running in windows */
 define( 'WIN', strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN' );
@@ -146,3 +146,5 @@ echo str_repeat( "-", 50 ) . "\n";
 echo $js;
 echo str_repeat( "-", 50 ) . "\n";
 echo COLOR_RESET;
+
+@file_put_contents( "dom.js", $js );
