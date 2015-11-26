@@ -111,7 +111,8 @@ function iterateDOM ( DOMNode $domNode )
         foreach ( $node->attributes as $attr ) {
           $attrName = $attr->nodeName;
           $attrValue = $attr->nodeValue;
-          $js .= "{$name}.setAttribute('{$attrName}','{$attrValue}');\n";
+          if ( $attrName != "data-jsid" )
+            $js .= "{$name}.setAttribute('{$attrName}','{$attrValue}');\n";
         }
       }
 
