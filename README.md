@@ -40,24 +40,19 @@ Becomes this javascript code
 ```javascript
 var categoryParent = document.createElement('div');
 categoryParent.setAttribute('class','categoryparent');
-categoryParent.setAttribute('data-jsid','categoryParent');
 
 var categoryName = document.createElement('div');
 categoryName.setAttribute('class','categoryname');
-categoryName.setAttribute('data-jsid','categoryName');
 categoryParent.appendChild(categoryName);
 
 var h4 = document.createElement('h4');
 categoryName.appendChild(h4);
-
 var topHolder = document.createElement('div');
 topHolder.setAttribute('class','mainvideoholder');
-topHolder.setAttribute('data-jsid','topHolder');
 categoryParent.appendChild(topHolder);
 
 var buttonLeft = document.createElement('div');
 buttonLeft.setAttribute('class','left');
-buttonLeft.setAttribute('data-jsid','buttonLeft');
 topHolder.appendChild(buttonLeft);
 
 var arrow = document.createElement('img');
@@ -66,11 +61,10 @@ arrow.setAttribute('src','/images/video/arrow-left.svg');
 buttonLeft.appendChild(arrow);
 var videoHolder = document.createElement('div');
 videoHolder.setAttribute('class','videos');
-videoHolder.setAttribute('data-jsid','videoHolder');
 topHolder.appendChild(videoHolder);
+
 var buttonRight = document.createElement('div');
 buttonRight.setAttribute('class','right');
-buttonRight.setAttribute('data-jsid','buttonRight');
 topHolder.appendChild(buttonRight);
 
 var arrow1 = document.createElement('img');
