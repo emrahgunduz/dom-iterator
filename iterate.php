@@ -46,13 +46,14 @@ function checkName ( $name, $number = 0 )
     $name = "domElement";
   }
 
-  if ( in_array( $name, $usedNames ) ) {
+  if ( in_array( ( $number ? $name . $number : $name ), $usedNames ) ) {
     $number++;
-    $name = checkName( $name . $number, $number );
+    return checkName( $name, $number );
   }
 
-  array_push( $usedNames, $name );
-  return $name;
+  $nName = ( $number ? $name . $number : $name );
+  array_push( $usedNames, $nName );
+  return $nName;
 }
 
 /**
