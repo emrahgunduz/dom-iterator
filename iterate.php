@@ -1,6 +1,6 @@
 <?php
 
-ini_set( 'display_errors', 0 );
+ini_set( 'display_errors', 1 );
 
 /** Detect if we are running in windows */
 define( 'WIN', strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN' );
@@ -20,6 +20,7 @@ $doNotWant = [ "html", "body" ];  // We do not want these dom nodes
 $currentLevel = 0;                // Current level in dom iteration
 $parentNames = array();           // Parent names
 $usedNames = array();             // Used names for checkName
+$toEcho = "";                     // Dom tree map
 $js = "";                         // Built javascript code
 
 /**
@@ -62,12 +63,12 @@ function checkName ( $name, $number = 0 )
  */
 function iterateDOM ( DOMNode $domNode )
 {
-  global $currentLevel, $js, $parentNames, $doNotWant;
+  global $currentLevel, $js, $parentNames, $doNotWant, $lastNodeName, $toEcho;
 
   foreach ( $domNode->childNodes as $node ) {
+
     if ( $node->nodeType === XML_ELEMENT_NODE ) {
 
-      //region Node information
       if ( in_array( $node->nodeName, $doNotWant ) ) {
         if ( $node->hasChildNodes() ) {
           iterateDOM( $node );
@@ -75,24 +76,22 @@ function iterateDOM ( DOMNode $domNode )
         break;
       }
 
-      echo COLOR_CYAN . str_repeat( " ", $currentLevel ) . $node->nodeName;
+      $toEcho .= COLOR_CYAN . str_repeat( " ", $currentLevel ) . $node->nodeName;
 
       if ( $node->hasAttribute( "data-jsid" ) )
-        echo COLOR_GREEN . " | " . COLOR_PURPLE . "JSID: " . $node->getAttribute( "data-jsid" );
+        $toEcho .= COLOR_GREEN . " | " . COLOR_PURPLE . "JSID: " . $node->getAttribute( "data-jsid" );
 
       if ( $node->hasAttribute( "style" ) )
-        echo COLOR_GREEN . " | Style: " . $node->getAttribute( "style" );
+        $toEcho .= COLOR_GREEN . " | Style: " . $node->getAttribute( "style" );
 
       if ( $node->hasAttribute( "class" ) )
-        echo COLOR_GREEN . " | Class: " . $node->getAttribute( "class" );
+        $toEcho .= COLOR_GREEN . " | Class: " . $node->getAttribute( "class" );
 
       if ( $node->hasAttribute( "src" ) )
-        echo COLOR_GREEN . " | Src: " . $node->getAttribute( "src" );
+        $toEcho .= COLOR_GREEN . " | Src: " . $node->getAttribute( "src" );
 
-      echo "\n";
-      //endregion
+      $toEcho .= "\n";
 
-      //region Decide the name for the node
       if ( $node->hasAttribute( "data-jsid" ) ) {
         $name = trim( $node->getAttribute( "data-jsid" ) );
       } else if ( $node->hasAttribute( "class" ) ) {
@@ -104,9 +103,8 @@ function iterateDOM ( DOMNode $domNode )
       $name = checkName( $name, 0 );
 
       $parentNames[ $currentLevel ] = $name;
-      //endregion
+      $lastNodeName = $name;
 
-      //region Javascript
       $js .= "var {$name} = document.createElement('{$node->nodeName}');\n";
       if ( $node->hasAttributes() ) {
         foreach ( $node->attributes as $attr ) {
@@ -119,19 +117,28 @@ function iterateDOM ( DOMNode $domNode )
 
       if ( $currentLevel > 0 ) {
         $pName = $parentNames[ $currentLevel - 1 ];
-        $js .= "{$pName}.appendChild({$name});\n";
-      }
-      //endregion
-
-      $currentLevel++;
-
-      if ( $node->hasChildNodes() ) {
-        $js .= "\n";
-        iterateDOM( $node );
+        $js .= "{$pName}.appendChild({$lastNodeName});\n";
       }
 
-      $currentLevel--;
+      $js .= "\n";
     }
+
+    if ( $node->nodeType === XML_TEXT_NODE && $node->textContent && strlen( $node->textContent ) ) {
+      $toEcho = trim( $toEcho );
+      $toEcho .= COLOR_YELLOW . " | Content: " . $node->textContent . "\n";
+
+      $js = trim( $js );
+      $js .= "\n{$lastNodeName}.innerHTML = \"" . $node->textContent . "\";\n";
+      $js .= "\n";
+    }
+
+    $currentLevel++;
+
+    if ( $node->hasChildNodes() ) {
+      iterateDOM( $node );
+    }
+
+    $currentLevel--;
   }
 }
 
@@ -157,6 +164,7 @@ iterateDOM( $dom );
 
 @unlink( "temp.html" );
 
+echo $toEcho;
 echo COLOR_YELLOW;
 echo str_repeat( "-", 50 ) . "\n";
 echo $js;

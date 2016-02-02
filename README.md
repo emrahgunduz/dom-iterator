@@ -18,7 +18,7 @@ For example, this html:
 ```html
 <div class="categoryparent" data-jsid="categoryParent">
   <div class="categoryname" data-jsid="categoryName">
-    <h4></h4>
+    <h4>Generate JS Code!</h4>
   </div>
 
   <div class="mainvideoholder" data-jsid="topHolder">
@@ -27,6 +27,7 @@ For example, this html:
     </div>
 
     <div class="videos" data-jsid="videoHolder">
+    Holding videos since 1977
     </div>
 
     <div class="right" data-jsid="buttonRight">
@@ -40,37 +41,35 @@ Becomes this javascript code
 ```javascript
 var categoryParent = document.createElement('div');
 categoryParent.setAttribute('class','categoryparent');
-categoryParent.setAttribute('data-jsid','categoryParent');
 
 var categoryName = document.createElement('div');
 categoryName.setAttribute('class','categoryname');
-categoryName.setAttribute('data-jsid','categoryName');
 categoryParent.appendChild(categoryName);
 
 var h4 = document.createElement('h4');
 categoryName.appendChild(h4);
+h4.innerHTML = "Generate JS Code!";
 
 var topHolder = document.createElement('div');
 topHolder.setAttribute('class','mainvideoholder');
-topHolder.setAttribute('data-jsid','topHolder');
 categoryParent.appendChild(topHolder);
 
 var buttonLeft = document.createElement('div');
 buttonLeft.setAttribute('class','left');
-buttonLeft.setAttribute('data-jsid','buttonLeft');
 topHolder.appendChild(buttonLeft);
 
 var arrow = document.createElement('img');
 arrow.setAttribute('class','arrow');
 arrow.setAttribute('src','/images/video/arrow-left.svg');
 buttonLeft.appendChild(arrow);
+
 var videoHolder = document.createElement('div');
 videoHolder.setAttribute('class','videos');
-videoHolder.setAttribute('data-jsid','videoHolder');
 topHolder.appendChild(videoHolder);
+videoHolder.innerHTML = "Holding videos since 1977";
+
 var buttonRight = document.createElement('div');
 buttonRight.setAttribute('class','right');
-buttonRight.setAttribute('data-jsid','buttonRight');
 topHolder.appendChild(buttonRight);
 
 var arrow1 = document.createElement('img');
