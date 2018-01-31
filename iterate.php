@@ -105,7 +105,7 @@ function iterateDOM ( DOMNode $domNode )
       $parentNames[ $currentLevel ] = $name;
       $lastNodeName = $name;
 
-      $js .= "var {$name} = document.createElement('{$node->nodeName}');\n";
+      $js .= "const {$name} = document.createElement('{$node->nodeName}');\n";
       if ( $node->hasAttributes() ) {
         foreach ( $node->attributes as $attr ) {
           $attrName = $attr->nodeName;
