@@ -39,40 +39,40 @@ For example, this html:
 
 Becomes this javascript code
 ```javascript
-var categoryParent = document.createElement('div');
+const categoryParent = document.createElement('div');
 categoryParent.setAttribute('class','categoryparent');
 
-var categoryName = document.createElement('div');
+const categoryName = document.createElement('div');
 categoryName.setAttribute('class','categoryname');
 categoryParent.appendChild(categoryName);
 
-var h4 = document.createElement('h4');
+const h4 = document.createElement('h4');
 categoryName.appendChild(h4);
 h4.innerHTML = "Generate JS Code!";
 
-var topHolder = document.createElement('div');
+const topHolder = document.createElement('div');
 topHolder.setAttribute('class','mainvideoholder');
 categoryParent.appendChild(topHolder);
 
-var buttonLeft = document.createElement('div');
+const buttonLeft = document.createElement('div');
 buttonLeft.setAttribute('class','left');
 topHolder.appendChild(buttonLeft);
 
-var arrow = document.createElement('img');
+const arrow = document.createElement('img');
 arrow.setAttribute('class','arrow');
 arrow.setAttribute('src','/images/video/arrow-left.svg');
 buttonLeft.appendChild(arrow);
 
-var videoHolder = document.createElement('div');
+const videoHolder = document.createElement('div');
 videoHolder.setAttribute('class','videos');
 topHolder.appendChild(videoHolder);
 videoHolder.innerHTML = "Holding videos since 1977";
 
-var buttonRight = document.createElement('div');
+const buttonRight = document.createElement('div');
 buttonRight.setAttribute('class','right');
 topHolder.appendChild(buttonRight);
 
-var arrow1 = document.createElement('img');
+const arrow1 = document.createElement('img');
 arrow1.setAttribute('class','arrow');
 arrow1.setAttribute('src','images/video/arrow-right.svg');
 buttonRight.appendChild(arrow1);
